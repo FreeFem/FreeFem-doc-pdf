@@ -1,0 +1,8 @@
+.*\.aux
+.*\.idx
+.*\.log
+.*\.out
+.*\.pdfsync
+.*\.toc
+plots/*.png
+figures/*.png
