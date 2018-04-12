@@ -24,5 +24,6 @@ do
 done
 
 ## there is a bug with plots/gnumembrane.eps (two pages, one dirty)
-rm plots/gnumembrane-1.png
-mv plots/gnumembrane-0.png plots/gnumembrane.png
+#  correct by F. Hecht 
+#rm plots/gnumembrane-1.png
+#mv plots/gnumembrane-0.png plots/gnumembrane.png
