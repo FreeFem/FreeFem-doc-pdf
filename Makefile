@@ -61,7 +61,11 @@ cpfigs/%.eps:plots/%.jpg
 	convert $^  $@
 cpfigs/%.eps:plots/%.pdf
 	pdf2ps $^  $@
-
+PREFIX=/usr/local/ff++
+ 	
+install:freefem++doc.pdf
+	install -d  -m 755  $(DESTDIR)$(PREFIX)/share/freefem++
+	install  -m 644 freefem++doc.pdf $(DESTDIR)$(PREFIX)/share/freefem++
 ## ls */*.eps|column -c 80|sed 's/$/ \\/' 
 FIGS_EPS=  \
 figures/1stCOD.eps              figures/LastCOD.eps             figures/cfunc1.eps \

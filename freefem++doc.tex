@@ -11,7 +11,7 @@
 \newtheorem{remark}{Remark}
 \usepackage{enumitem}
 
-\def\VERSION{3.58-1}
+\def\VERSION{3.60}
 \def\key#1{\emph{#1}\index{#1}}
 \def\vec#1{\mbox{\boldmath $#1$}}
 \def\C{\mathbb{C}}
@@ -4450,6 +4450,24 @@ The output is
   B = (3.*b*c')(I^-1,J^-1); // outer product  B(I(i),J(j))  = b(i)*c(j)
   cout << "B = (3.*b*c')(I^-1,J^-1) =  " << B << endl;
 
+//  Add april 2018
+   real[int] AV(A.n*A.m);
+   for [i,j,aij: A ] AV[i+A.n*j]=aij;
+     int i,j,ii,jj;
+    ijmax(A,ii,jj); //get i,j the  row and column index  of the max coef of A \index{array!ijmax}
+    i = A.imax;	j=  A.jmax;// get row and column index of max coefficient \index{array!imax}\index{array!jmax}
+    cout << " max " << i << " " << j << " "<< AV.imax << " " << A.max << endl; 
+    assert( i+A.n*j== AV.imax );
+    assert( ii+A.n*jj == AV.imax );
+    ijmin(A,i,j); //  get i,j the  row and column index  of the min coef of A  \index{array!ijmin}
+    ii = A.imin;jj=  A.jmin;//get row and column index of min coefficient \index{array!imin}\index{array!jmin}
+    cout << " min  " << i << " " << j << " "<< AV.imin << " " 
+         << A.min<< " == " << AV.min << endl; 
+    cout << " minn " << ii << " " << jj << " "<< AV.imin 
+         << " " << A.min<< " == " << AV.min << endl; 
+    assert( i+A.n*j == AV.imin  );
+    assert( ii+A.n*jj == AV.imin  );
+
 \eFF
 
  the output is
@@ -4474,6 +4492,11 @@ The output is
            8  10  12  14
           16  20  24  28
           24  30  36  42
+          
+ max 2 3 11 42
+ min  0 0 0 8 == 8
+ minn 0 0 0 8 == 8
+          
 \eFF
 
 \subsubsection{\setS{Matrix  construction and setting}}
@@ -14725,7 +14748,7 @@ The functions to define  Uzawa and the preconditioner part.
     @real[@int] pa= pAA^-1*p;
     @real[@int] pm= pAM^-1*p;
     @real[@int] pp= alpha*pa+nu*pm; 
-  	@return pp;
+    @return pp;
  }
 
 \eFF
@@ -16578,7 +16601,7 @@ $v_i= \pi_i u_i + \sum_{j\in J_i} \pi_j  u_j  $ and  can be write  the
 \bFF
 @func @bool Update(@real[@int] &ui, @real[@int] &vi)
 { @int n= jpart.n;
-  @for(@int j=0;j<njpart;++j)  Usend[j][]=sMj[j]*ui;  	
+  @for(@int j=0;j<njpart;++j)  Usend[j][]=sMj[j]*ui;    
   @mpiRequest[int] rq(n*2);
   @for (int j=0;j<n;++j) @Irecv(processor(jpart[j],comm,rq[j  ]), Ri[j][]);       
   @for (int j=0;j<n;++j) @Isend(processor(jpart[j],comm,rq[j+n]), Si[j][]); 
